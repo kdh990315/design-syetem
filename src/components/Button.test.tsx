@@ -8,7 +8,7 @@ test("renders the button with children", () => {
 
 test("renders the button with label prop", () => {
   render(<Button label="Submit" />);
-  expect(screen.getByText("Submitdddd")).toBeInTheDocument();
+  expect(screen.getByText("Submit")).toBeInTheDocument();
 });
 
 test("children takes precedence over label prop", () => {
