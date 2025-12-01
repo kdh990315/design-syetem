@@ -1,36 +1,69 @@
-interface ButtonProps {
-  children: React.ReactNode;
-  size?: "sm" | "md" | "lg";
-  variant?: "primary" | "secondary" | "outline";
-  className?: string;
-  onClick?: () => void;
+import React from "react";
+import { cn } from "../../utils/cn";
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "filled" | "outline";
+  size?: "small" | "large";
+  label?: string;
+  children?: React.ReactNode;
 }
 
-export default function Button({
+export const Button = ({
+  type = "button",
+  disabled,
+  onClick,
+  size = "large",
+  variant = "filled",
+  className,
+  label,
   children,
-  onClick = () => {},
-  size = "md",
-  variant = "primary",
-  className = "",
-}: ButtonProps) {
-  const sizeClass = {
-    sm: "h-8 text-sm px-2 py-1",
-    md: "h-10 text-base px-4 py-2",
-    lg: "h-12 text-lg px-6 py-3",
-  };
+  ...props
+}: ButtonProps) => {
+  const baseStyles =
+    "inline-flex items-center justify-center rounded-lg font-medium select-none transition h-11";
 
-  const variantClass = {
-    primary: "bg-blue-500 text-white hover:bg-blue-600",
-    secondary: "bg-gray-500 text-white hover:bg-gray-600",
-    outline: "bg-white text-black border border-gray-500 hover:bg-gray-100",
+  const sizes = {
+    small: "h-10 px-4 text-sm", // 모바일 사이즈
+    large: "h-11 px-5", // 데스크탑 사이즈
+  } as const;
+
+  const variants = {
+    filled:
+      "cursor-pointer bg-primary text-white hover:bg-[var(--GreenScale-Green60)] active:bg-[var(--GreenScale-Green70)]",
+    outline:
+      "cursor-pointer bg-white text-primary border border-primary active:border-[var(--GreenScale-Green70)] active:text-[var(--GreenScale-Green70)]",
+  } as const;
+
+  const disabledVariants = {
+    filled:
+      "bg-[var(--GrayScale-Gray30)] text-white cursor-not-allowed font-normal",
+    outline: "bg-gray-30 text-white cursor-not-allowed font-normal",
+  } as const;
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (disabled) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    onClick?.(e);
   };
 
   return (
     <button
-      className={`inline-flex items-center justify-center rounded-md ${sizeClass[size]} ${variantClass[variant]} ${className}`}
-      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      onClick={handleClick}
+      className={cn(
+        baseStyles,
+        sizes[size],
+        disabled ? disabledVariants[variant] : variants[variant],
+        className
+      )}
+      {...props}
     >
-      {children}
+      {children || label}
     </button>
   );
-}
+};
