@@ -17,9 +17,24 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "24"
+          cache: "npm"
 
       - name: 의존성(라이브러리) 설치
         run: npm ci
 
       - name: 테스트 실행하기
         run: npm run test:ci
+        if: ${{ hashFiles('**/*.test.tsx*') || hashFiles('**/*.test.ts') != '' }}
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "npm"
+      - run: npm ci
+
+      - run: npm run typecheck # typecheck 스크립트 실행
