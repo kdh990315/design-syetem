@@ -89,13 +89,13 @@ export const AllStates: Story = {
                   variant="filled"
                   size="large"
                   label="Hover"
-                  className="w-[332px] bg-[var(--GreenScale-Green60)]"
+                  className="w-[332px] bg-(--GreenScale-Green60)"
                 />
                 <Button
                   variant="filled"
                   size="large"
                   label="Active"
-                  className="w-[332px] bg-[var(--GreenScale-Green70)]"
+                  className="w-[332px] bg-(--GreenScale-Green70)"
                 />
                 <Button
                   variant="filled"
