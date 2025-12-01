@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - dev
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   test:
@@ -24,7 +24,6 @@ jobs:
 
       - name: 테스트 실행하기
         run: npm run test:ci
-        if: ${{ hashFiles('**/*.test.tsx*') || hashFiles('**/*.test.ts') != '' }}
 
   typecheck:
     name: typecheck
