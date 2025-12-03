@@ -1,0 +1,42 @@
+name: "Chromatic Deployment"
+
+on:
+  pull_request:
+    branches: [dev]
+    paths:
+      - "**.stories.tsx"
+      - ".storybook/**"
+      - "package.json"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+          onlyChanged: true
+          exitZeroOnChanges: true
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: "🚀 **Storybook**: ${{ steps.chromatic.outputs.storybookUrl }}"
