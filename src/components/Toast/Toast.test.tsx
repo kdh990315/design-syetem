@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 import { Toast } from "./Toast";
 import type { ToastType } from "./types";
 
-const mockRemove = jest.fn();
+const mockRemove = vi.fn();
 
 describe("Toast", () => {
   test("Toast가 description과 함께 렌더링되어야 한다", () => {
