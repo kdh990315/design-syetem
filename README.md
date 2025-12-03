@@ -1,5 +1,6 @@
 # React + TypeScript + Vite
 
+## 🚀 [스토리북 링크](https://dev--692965e15af185b3c8298ca1.chromatic.com/?path=/docs/atoms-label--docs)
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
