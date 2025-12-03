@@ -7,6 +7,12 @@ on:
       - "**.stories.tsx"
       - ".storybook/**"
       - "package.json"
+  push:
+    branches: [dev]
+    paths:
+      - "**.stories.tsx"
+      - ".storybook/**"
+      - "package.json"
 
 permissions:
   contents: read
@@ -37,6 +43,7 @@ jobs:
           exitZeroOnChanges: true
 
       - name: Comment PR
+        if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: "🚀 **Storybook**: ${{ steps.chromatic.outputs.storybookUrl }}"
